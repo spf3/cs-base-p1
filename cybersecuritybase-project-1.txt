@@ -1,3 +1,9 @@
+Location of the source code: https://github.com/spf3/cs-base-p1
+-> bad version: cs-p1-bad.tar.gz (with the flaws)
+->  ok version: cs-p1-ok.tar.gz  (flaws fixed)
+Download the files, un-tar with tar -zxvf {file.tar.gz}, then add project to NetBeans IDE, build and run it. The server starts on http://localhost:8080
+
+
 1) Issue: A2. Broken Authentication and Session Management: Implements bespoke authentication w/o proper session management
 
 1.a) Steps to reproduce:
