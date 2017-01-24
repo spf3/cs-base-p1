@@ -1,0 +1,55 @@
+1) Issue: A2. Broken Authentication and Session Management: Implements bespoke authentication w/o proper session management
+
+1.a) Steps to reproduce:
+1. Navigate to http://localhost:8080/
+2. Enter "scott" as the username, "tiger" as the password (notice that the password is displayed in the clear) and click Submit
+3. Open the browser's functionality to display cookies and their contents.
+4. Locate the two cookies "usr" and "pwd" for the localhost and display their contents. You'll see both values in cleartext
+5. Delete the two cookies.
+6. Navigate to http://localhost:8080/form - you can access the event signup form even w/o being authenticated.
+
+1.b) Steps to fix: Replace the bespoke authentication and session management by the default mechanisms provided by the Spring framework. Configure the mechanisms in a secure way, e.g. secure session cookies, pages that require authentication, storing passwords in the accounts database in a secure (i.e. BCrypt password encoder) way. (See SecurityConfiguration.java)
+
+
+2) Issue A3. Cross-Site Scripting: Displays unsanitised user input, allowing scripts to execute
+
+2.a) Steps to reproduce:
+1. Navigate to http://localhost:8080/
+2. Log on (e.g. username = "scott", password = "tiger")
+3. For "Event" enter (without the quotes) "<script>alert(document.cookie);</script>", for "Location" enter whatever text you wish, then click "Submit" - the cookies of the document are shown, displaying the username and the password
+
+2.b) Steps to fix: Leverage the features of Thymeleaf to sanitise user input. Replacing the "utext" tags (th:utext="${xxx}") with "text" tags (th:text="${xxx}") will escape HTML tags automatically and thus helps to prevent user-submitted content to execute in the browser displaying that content.
+
+
+
+3) Issue A5. Security Misconfiguration: Allows all requests, disables Spring CSRF protection
+
+3.a) Steps to reproduce:
+1. Navigate to http://localhost:8080/
+2. Log on (e.g. username = "scott", password = "tiger")
+3. For "Event" enter (without the quotes) "<form method='POST' action='http://localhost:8080/form'><input type='hidden' name='event' value='rogueEvent'><input type='hidden' name='location' value='rogueLocation'><input type='submit' value='ATTACK!'></form>" - the "Event" column now shows an "ATTACK!" button
+4. Click the "ATTACK!" button in the "Event" - A new event "rogueEvent" at "rogueLocation" gets added
+
+3.b) Steps to fix: Remove the line "http.csrf().disable();" from SecurityConfiguration.java to get Spring CSRF detection/protection.
+
+
+
+4) Issue A6. Sensitive Data Exposure: Password of the logged on user is stored in the clear in a cookie on the user's system, and also in the clear in the accounts table on the backend
+
+4.a) Steps to reproduce:
+1. Perform the steps 1. - 4. of issue A2 to see the cleartext password stored in the pwd cookie
+2. Navigate to http://localhost:8080/h2-console
+3. In "JDBC URL" enter (without the quotes) "jdbc:h2:mem:testdb" and click "Connect"
+4. Enter the following SQL statement (without the quotes) "Select * from Account" and click "Run" - usernames and passwords of all users are displayed
+
+4.b) Steps to fix: By replacing the bespoke authentication and session management, as well as implementing secure password storage (BCrypt), which are both detailed in the "Steps to fix" for issue 1 above, the passwords are no longer unduly exposed.
+
+
+
+5) A7. Missing function level access control: Allows access to the event signup page (including one user's data) even when not authenticated
+
+5.a) Steps to reproduce:
+1. Navigate to http://localhost:8080/form - the Event Signup form is displayed for the user with the name "user", eventhough no authentication has taken place; everybody can now add Event Signups for this user
+
+
+5.b) Steps to fix: Fix the security configuration of the application by removing the line "http.authorizeRequests().anyRequest().permitAll();" from SecurityConfiguration.java. This will make sure that the individual pages of the application can only be accessed after prior, successful authentication.
