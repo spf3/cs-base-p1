@@ -1,7 +1,15 @@
+[Updated 27-Jan] Uploaded cs-base-p1-bad.zip and cs-base-p1-ok.zip, as people had issues with unpacking the respective .tar.gz files on non-*nix/linux operating systems.
+
 Location of the source code: https://github.com/spf3/cs-base-p1
--> bad version: cs-p1-bad.tar.gz (with the flaws)
-->  ok version: cs-p1-ok.tar.gz  (flaws fixed)
-Download the files, un-tar with tar -zxvf {file.tar.gz}, then add project to NetBeans IDE, build and run it. The server starts on http://localhost:8080
+-> bad version: cs-base-p1-bad.tar.gz (*nix/linux) or cs-base-p1-bad.zip (Windows) (with the flaws)
+->  ok version: cs-base-p1-ok.tar.gz (*nix/linux) or cs-base-p1-ok.zip (Windows) (flaws fixed)
+Installation:
+1. Download the files
+2. unpack files
+   a. *nix/linux: un-tar the *.tar.gz files with: tar -zxvf {fileName}.tar.gz
+   b. Windows: unZIP with the *.zip files with your favourite app
+3. add project to NetBeans IDE
+4. build and run it. The server starts on http://localhost:8080
 
 
 1) Issue: A2. Broken Authentication and Session Management: Implements bespoke authentication w/o proper session management
