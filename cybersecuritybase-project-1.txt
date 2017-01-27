@@ -4,7 +4,7 @@ Location of the source code: https://github.com/spf3/cs-base-p1
 -> bad version: cs-base-p1-bad.tar.gz (*nix/linux) or cs-base-p1-bad.zip (Windows) (with the flaws)
 ->  ok version: cs-base-p1-ok.tar.gz (*nix/linux) or cs-base-p1-ok.zip (Windows) (flaws fixed)
 Installation:
-1. Download the files
+1. download the files (click the "Download" button, or right-click the file and "Save target as..."; GitHub's "View raw" doesn't work!)
 2. unpack files
    a. *nix/linux: un-tar the *.tar.gz files with: tar -zxvf {fileName}.tar.gz
    b. Windows: unZIP with the *.zip files with your favourite app
